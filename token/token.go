@@ -39,7 +39,7 @@ func LookupIdent(ident string) (TokenType, error) {
 	if tok, ok := tokens[ident]; ok {
 		return tok, nil
 	}
-	return ERROR, fmt.Errorf("LookupIdent: Could not identify ident. Unexpected\n")
+	return ERROR, fmt.Errorf("LookupIdent: Could not identify ident \"%s\". Unexpected\n", ident)
 }
 
 func (t *Token) String() string {
