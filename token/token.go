@@ -23,6 +23,7 @@ const (
 	COMMA                 = "COMMA"
 	PLUS                  = "PLUS"
 	MINUS                 = "MINUS"
+	SEMICOLON             = "SEMICOLON"
 )
 
 var tokens = map[string]TokenType{
@@ -35,6 +36,7 @@ var tokens = map[string]TokenType{
 	".": DOT,
 	"+": PLUS,
 	"-": MINUS,
+	";": SEMICOLON,
 }
 
 func LookupIdent(ident string) (TokenType, error) {
