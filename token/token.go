@@ -18,6 +18,10 @@ const (
 	EOF                   = "EOF"
 	LEFT_BRACE            = "LEFT_BRACE"
 	RIGHT_BRACE           = "RIGHT_BRACE"
+	STAR                  = "STAR"
+	DOT                   = "DOT"
+	COMMA                 = "COMMA"
+	PLUS                  = "PLUS"
 )
 
 var tokens = map[string]TokenType{
@@ -25,6 +29,10 @@ var tokens = map[string]TokenType{
 	")": RIGHT_PAREN,
 	"{": LEFT_BRACE,
 	"}": RIGHT_BRACE,
+	"*": STAR,
+	",": COMMA,
+	".": DOT,
+	"+": PLUS,
 }
 
 func LookupIdent(ident string) (TokenType, error) {
