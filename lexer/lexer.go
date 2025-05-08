@@ -56,7 +56,7 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 		ident, err := token.LookupIdent(char)
 		if err != nil {
 			fmt.Printf("[line %d] Error: %s\n", line, err)
-			lexicalError = false
+			lexicalError = true
 
 			continue
 		}
