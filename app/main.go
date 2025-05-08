@@ -29,6 +29,7 @@ func main() {
 	defer file.Close()
 
 	l := &lexer.Lexer{}
-	l.Scan(file)
+	scanCode := l.Scan(file)
 
+	os.Exit(int(scanCode))
 }

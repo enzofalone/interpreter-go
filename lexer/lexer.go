@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 
+	"github.com/codecrafters-io/interpreter-starter-go/status"
 	"github.com/codecrafters-io/interpreter-starter-go/token"
 )
 
@@ -12,7 +13,7 @@ type Lexer struct {
 	tokens []token.Token
 }
 
-func (l *Lexer) Scan(f *os.File) {
+func (l *Lexer) Scan(f *os.File) status.ReturnCode {
 
 	stats, err := f.Stat()
 	if err != nil {
@@ -20,23 +21,25 @@ func (l *Lexer) Scan(f *os.File) {
 		os.Exit(1)
 	}
 
+	var status = status.SUCCESS
 	if stats.Size() > 0 {
-		l.readFile(f)
+		status = l.readFile(f)
 	} else {
 		fmt.Println("EOF null")
 	}
 
+	return status
 }
 
 // readFile traverses through file one byte at a time scanning and printing for different tokens found
-func (l *Lexer) readFile(f *os.File) {
+func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 	line := 1
+	lexicalError := false
 
 	for {
 		_, err := f.Seek(0, io.SeekCurrent)
 		if err != nil {
-			fmt.Printf("Error seeking: %v\n", err)
-			return
+			return status.UNKNOWN_ERROR
 		}
 
 		buffer := make([]byte, 1)
@@ -53,6 +56,8 @@ func (l *Lexer) readFile(f *os.File) {
 		ident, err := token.LookupIdent(char)
 		if err != nil {
 			fmt.Printf("[line %d] Error: %s\n", line, err)
+			lexicalError = false
+
 			continue
 		}
 
@@ -62,4 +67,10 @@ func (l *Lexer) readFile(f *os.File) {
 
 		fmt.Printf("%s %s null\n", ident, char)
 	}
+
+	if lexicalError {
+		return status.LEXICAL_ERROR
+	}
+
+	return status.SUCCESS
 }
