@@ -24,26 +24,30 @@ const (
 	PLUS                  = "PLUS"
 	MINUS                 = "MINUS"
 	SEMICOLON             = "SEMICOLON"
+	SLASH                 = "SLASH"
+	NEWLINE               = "NEWLINE"
 )
 
 var tokens = map[string]TokenType{
-	"(": LEFT_PAREN,
-	")": RIGHT_PAREN,
-	"{": LEFT_BRACE,
-	"}": RIGHT_BRACE,
-	"*": STAR,
-	",": COMMA,
-	".": DOT,
-	"+": PLUS,
-	"-": MINUS,
-	";": SEMICOLON,
+	"(":  LEFT_PAREN,
+	")":  RIGHT_PAREN,
+	"{":  LEFT_BRACE,
+	"}":  RIGHT_BRACE,
+	"*":  STAR,
+	",":  COMMA,
+	".":  DOT,
+	"+":  PLUS,
+	"-":  MINUS,
+	";":  SEMICOLON,
+	"/":  SLASH,
+	"\n": NEWLINE,
 }
 
 func LookupIdent(ident string) (TokenType, error) {
 	if tok, ok := tokens[ident]; ok {
 		return tok, nil
 	}
-	return ERROR, fmt.Errorf("LookupIdent: Could not identify ident \"%s\". Unexpected\n", ident)
+	return ERROR, fmt.Errorf("Unexpected character: %s", ident)
 }
 
 func (t *Token) String() string {

@@ -23,13 +23,15 @@ func (l *Lexer) Scan(f *os.File) {
 	if stats.Size() > 0 {
 		l.readFile(f)
 	} else {
-		fmt.Println("EOF  null")
+		fmt.Println("EOF null")
 	}
 
 }
 
 // readFile traverses through file one byte at a time scanning and printing for different tokens found
 func (l *Lexer) readFile(f *os.File) {
+	line := 1
+
 	for {
 		_, err := f.Seek(0, io.SeekCurrent)
 		if err != nil {
@@ -40,7 +42,7 @@ func (l *Lexer) readFile(f *os.File) {
 		buffer := make([]byte, 1)
 		n, _ := f.Read(buffer)
 		if n == 0 {
-			fmt.Println("EOF  null")
+			fmt.Println("EOF null")
 			break
 		}
 
@@ -50,7 +52,12 @@ func (l *Lexer) readFile(f *os.File) {
 		// identifier that translates char(s) to
 		ident, err := token.LookupIdent(char)
 		if err != nil {
-			fmt.Printf("LookupIdent %s: %s", ident, err)
+			fmt.Printf("[line %d] Error: %s\n", line, err)
+			continue
+		}
+
+		if ident == token.NEWLINE {
+			line++
 		}
 
 		fmt.Printf("%s %s null\n", ident, char)
