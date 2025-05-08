@@ -30,7 +30,6 @@ func main() {
 
 	l := &lexer.Lexer{}
 	scanCode := l.Scan(file)
-	fmt.Printf("status is %d\n", scanCode)
 
 	os.Exit(int(scanCode))
 }

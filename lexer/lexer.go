@@ -15,19 +15,15 @@ type Lexer struct {
 
 func (l *Lexer) Scan(f *os.File) status.ReturnCode {
 
+	// not necessary
+	//
 	// stats, err := f.Stat()
 	// if err != nil {
 	// 	fmt.Fprintf(os.Stderr, "Error getting file description: %v\n", err)
 	// 	os.Exit(1)
 	// }
 
-	var status = status.SUCCESS
-	// if stats.Size() > 0 {
-	status = l.readFile(f)
-	// } else {
-	// 	fmt.Println("EOF  null")
-	// }
-
+	status := l.readFile(f)
 	return status
 }
 
