@@ -68,6 +68,19 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 			} else {
 				l.addToken(token.LESS, char, "null", line)
 			}
+		case token.SLASH:
+			if match := match(f, "/"); match {
+				for {
+					// read until newline
+					c, err := next(f)
+					if c == "\n" || err != nil {
+						break
+					}
+				}
+				continue
+			} else {
+				l.addToken(token.SLASH, char, "null", line)
+			}
 		default:
 			l.addToken(ident, char, "null", line)
 		}
@@ -167,4 +180,8 @@ func (l *Lexer) addToken(tokenType token.TokenType, lexeme string, literal strin
 		Literal:   literal,
 		Line:      line,
 	})
+}
+
+func printError(line int, err error) {
+	fmt.Fprintf(os.Stderr, "[line %d] Error: %s\n", line, err)
 }
