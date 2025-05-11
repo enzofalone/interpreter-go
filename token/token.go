@@ -25,21 +25,43 @@ const (
 	MINUS                 = "MINUS"
 	SEMICOLON             = "SEMICOLON"
 	SLASH                 = "SLASH"
-	NEWLINE               = "NEWLINE"
+	EQUAL                 = "EQUAL"
+	BANG                  = "BANG"
+	GREATER               = "GREATER"
+	LESS                  = "LESS"
+
+	// operators
+	EQUAL_EQUAL   = "EQUAL_EQUAL"
+	BANG_EQUAL    = "BANG_EQUAL"
+	LESS_EQUAL    = "LESS_EQUAL"
+	GREATER_EQUAL = "GREATER_EQUAL"
+
+	NEWLINE = "NEWLINE"
 )
 
 var tokens = map[string]TokenType{
-	"(":  LEFT_PAREN,
-	")":  RIGHT_PAREN,
-	"{":  LEFT_BRACE,
-	"}":  RIGHT_BRACE,
-	"*":  STAR,
-	",":  COMMA,
-	".":  DOT,
-	"+":  PLUS,
-	"-":  MINUS,
-	";":  SEMICOLON,
-	"/":  SLASH,
+	"(": LEFT_PAREN,
+	")": RIGHT_PAREN,
+	"{": LEFT_BRACE,
+	"}": RIGHT_BRACE,
+	"*": STAR,
+	",": COMMA,
+	".": DOT,
+	"+": PLUS,
+	"-": MINUS,
+	";": SEMICOLON,
+	"/": SLASH,
+	"=": EQUAL,
+	"!": BANG,
+	">": GREATER,
+	"<": LESS,
+
+	// operators
+	"==": EQUAL_EQUAL,
+	"!=": BANG_EQUAL,
+	"<=": LESS_EQUAL,
+	">=": GREATER_EQUAL,
+
 	"\n": NEWLINE,
 }
 
