@@ -36,7 +36,10 @@ const (
 	LESS_EQUAL    = "LESS_EQUAL"
 	GREATER_EQUAL = "GREATER_EQUAL"
 
+	// whitespace
 	NEWLINE = "NEWLINE"
+	SPACE   = " "
+	TAB     = "\t"
 )
 
 var tokens = map[string]TokenType{

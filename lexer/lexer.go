@@ -38,12 +38,15 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 
 			continue
 		}
-		if ident == token.NEWLINE {
-			line++
-		}
 
-		// parse operators
 		switch ident {
+		case token.NEWLINE:
+			line++
+			continue // temp
+		case token.SPACE:
+			continue
+		case token.TAB:
+			continue
 		case token.EQUAL:
 			if match := match(f, "="); match {
 				l.addToken(token.EQUAL_EQUAL, "==", "null", line)
