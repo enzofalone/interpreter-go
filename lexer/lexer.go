@@ -42,7 +42,6 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "[line %d] Error: %s\n", line, err)
 			lexicalError = true
-
 			continue
 		}
 
