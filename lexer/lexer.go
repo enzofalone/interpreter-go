@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strings"
 
 	"github.com/codecrafters-io/interpreter-starter-go/status"
 	"github.com/codecrafters-io/interpreter-starter-go/token"
@@ -31,12 +30,6 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 			break
 		}
 
-		// whitespace
-		char = strings.TrimSpace(char)
-		if len(char) == 0 {
-			continue
-		}
-
 		// create output token
 		ident, err := token.LookupIdent(char)
 		if err != nil {
@@ -50,6 +43,8 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 			line++
 			continue // temp
 		case token.TAB:
+			continue
+		case token.SPACE:
 			continue
 		case token.EQUAL:
 			if match := match(f, "="); match {

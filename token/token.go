@@ -66,6 +66,8 @@ var tokens = map[string]TokenType{
 	">=": GREATER_EQUAL,
 
 	"\n": NEWLINE,
+	" ":  SPACE,
+	"\t": TAB,
 }
 
 func LookupIdent(ident string) (TokenType, error) {
