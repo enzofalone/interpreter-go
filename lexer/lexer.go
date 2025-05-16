@@ -32,7 +32,7 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 		}
 
 		// whitespace
-		char = strings.Trim(char, " ")
+		char = strings.TrimSpace(char)
 		if len(char) == 0 {
 			continue
 		}
