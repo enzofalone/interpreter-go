@@ -41,7 +41,7 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 		switch ident {
 		case token.NEWLINE:
 			line++
-			continue // temp
+			continue
 		case token.TAB:
 			continue
 		case token.SPACE:
