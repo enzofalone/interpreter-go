@@ -79,6 +79,7 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 						break
 					}
 				}
+				line++
 				continue
 			} else {
 				l.addToken(token.SLASH, char, "null", line)
