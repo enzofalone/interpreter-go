@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	"github.com/codecrafters-io/interpreter-starter-go/status"
 	"github.com/codecrafters-io/interpreter-starter-go/token"
@@ -33,7 +34,7 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 		// create output token
 		ident, err := token.LookupIdent(char)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "[line %d] Error: %s\n", line, err)
+			printError(line, err)
 			lexicalError = true
 			continue
 		}
@@ -84,6 +85,29 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 			} else {
 				l.addToken(token.SLASH, char, "null", line)
 			}
+		case token.STRING:
+			// note: we don't support escapes for quotations
+			var str string = "\""
+			for {
+				// read until close quotes
+				c, err := next(f)
+				if err != nil {
+					lexicalError = true
+					break
+				}
+				str += c
+
+				if c == "\"" {
+					break
+				}
+			}
+
+			if lexicalError {
+				printError(line, fmt.Errorf("Unterminated string."))
+				continue
+			}
+
+			l.addToken(ident, str, strings.Trim(str, "\""), line)
 		default:
 			l.addToken(ident, char, "null", line)
 		}

@@ -29,6 +29,7 @@ const (
 	BANG                  = "BANG"
 	GREATER               = "GREATER"
 	LESS                  = "LESS"
+	STRING                = "STRING"
 
 	// operators
 	EQUAL_EQUAL   = "EQUAL_EQUAL"
@@ -38,26 +39,27 @@ const (
 
 	// whitespace
 	NEWLINE = "NEWLINE"
-	SPACE   = " "
-	TAB     = "\t"
+	SPACE   = "SPACE"
+	TAB     = "TAB"
 )
 
 var tokens = map[string]TokenType{
-	"(": LEFT_PAREN,
-	")": RIGHT_PAREN,
-	"{": LEFT_BRACE,
-	"}": RIGHT_BRACE,
-	"*": STAR,
-	",": COMMA,
-	".": DOT,
-	"+": PLUS,
-	"-": MINUS,
-	";": SEMICOLON,
-	"/": SLASH,
-	"=": EQUAL,
-	"!": BANG,
-	">": GREATER,
-	"<": LESS,
+	"(":  LEFT_PAREN,
+	")":  RIGHT_PAREN,
+	"{":  LEFT_BRACE,
+	"}":  RIGHT_BRACE,
+	"*":  STAR,
+	",":  COMMA,
+	".":  DOT,
+	"+":  PLUS,
+	"-":  MINUS,
+	";":  SEMICOLON,
+	"/":  SLASH,
+	"=":  EQUAL,
+	"!":  BANG,
+	">":  GREATER,
+	"<":  LESS,
+	"\"": STRING,
 
 	// operators
 	"==": EQUAL_EQUAL,
