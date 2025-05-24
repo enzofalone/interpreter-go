@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/codecrafters-io/interpreter-starter-go/status"
@@ -108,6 +109,32 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 			}
 
 			l.addToken(ident, str, strings.Trim(str, "\""), line)
+		case token.NUMBER:
+			var n string = char
+			for {
+				c, err := next(f)
+				if err != nil {
+					lexicalError = true
+					break
+				}
+
+				if !isDigit(c) && c != token.DOT {
+					break
+				}
+				if c == token.DOT {
+					peekChar, _ := peek(f)
+					if !isDigit(peekChar) {
+						break
+					}
+				}
+				n += c
+			}
+			parsedNumber, err := strconv.ParseFloat(n, 64)
+			if err != nil {
+				fmt.Println("error while parsing float: ", err)
+			}
+
+			l.addToken(ident, n, parsedNumber, line)
 		default:
 			l.addToken(ident, char, "null", line)
 		}
@@ -155,6 +182,19 @@ func prev(f *os.File) (string, error) {
 	return char, err
 }
 
+func peek(f *os.File) (string, error) {
+	char, err := next(f)
+	if err != nil {
+		return "", err
+	}
+
+	if _, err = prev(f); err != nil {
+		return "", err
+	}
+
+	return char, nil
+}
+
 // match moves forward in f's cursor only if the expected character is met
 //
 // match is mostly used to identify operators (==, !=, >=)
@@ -200,7 +240,16 @@ func matchString(f *os.File) (string, error) {
 	return result, nil
 }
 
-func (l *Lexer) addToken(tokenType token.TokenType, lexeme string, literal string, line int) {
+func isDigit(s string) bool {
+	for _, r := range s {
+		if r < '0' || r > '9' {
+			return false
+		}
+	}
+	return true
+}
+
+func (l *Lexer) addToken(tokenType token.TokenType, lexeme string, literal interface{}, line int) {
 	l.tokens = append(l.tokens, token.Token{
 		TokenType: tokenType,
 		Lexeme:    lexeme,
