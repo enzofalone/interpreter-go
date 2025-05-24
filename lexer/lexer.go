@@ -117,13 +117,15 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 					lexicalError = true
 					break
 				}
-
-				if !isDigit(c) && c != token.DOT {
+				if !isDigit(c) && c != "." {
 					break
 				}
-				if c == token.DOT {
+
+				if c == "." {
+					// check it contains decimals or a separate token
 					peekChar, _ := peek(f)
 					if !isDigit(peekChar) {
+						prev(f)
 						break
 					}
 				}
@@ -133,7 +135,6 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 			if err != nil {
 				fmt.Println("error while parsing float: ", err)
 			}
-
 			l.addToken(ident, n, parsedNumber, line)
 		default:
 			l.addToken(ident, char, "null", line)
@@ -241,6 +242,9 @@ func matchString(f *os.File) (string, error) {
 }
 
 func isDigit(s string) bool {
+	if len(s) == 0 {
+		return false
+	}
 	for _, r := range s {
 		if r < '0' || r > '9' {
 			return false
