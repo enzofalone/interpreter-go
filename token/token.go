@@ -95,14 +95,18 @@ func LookupIdent(ident string) (TokenType, error) {
 func (t *Token) String() string {
 	switch v := t.Literal.(type) {
 	case float64:
-		if int(t.Literal.(float64)) == t.Literal {
+		if isFloatIntegral(t.Literal.(float64)) {
 			return fmt.Sprintf("%s %s %.1f", t.TokenType, t.Lexeme, t.Literal)
 		}
-		return fmt.Sprintf("%s %s %f", t.TokenType, t.Lexeme, t.Literal)
+		return fmt.Sprintf("%s %s %g", t.TokenType, t.Lexeme, t.Literal)
 	case string:
 		return fmt.Sprintf("%s %s %s", t.TokenType, t.Lexeme, t.Literal)
 	default:
 		return fmt.Sprintf("Unexpected type %T", v)
 	}
 
+}
+
+func isFloatIntegral(s float64) bool {
+	return s == float64(int(s))
 }

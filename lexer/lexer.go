@@ -114,10 +114,10 @@ func (l *Lexer) readFile(f *os.File) status.ReturnCode {
 			for {
 				c, err := next(f)
 				if err != nil {
-					lexicalError = true
 					break
 				}
 				if !isDigit(c) && c != "." {
+					prev(f)
 					break
 				}
 
